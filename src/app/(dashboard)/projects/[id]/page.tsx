@@ -1,8 +1,9 @@
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, ExternalLink, GitBranch, Activity, Trash2 } from 'lucide-react'
+import { ArrowLeft, ExternalLink, GitBranch, Activity, Plug, TrendingUp } from 'lucide-react'
 import { DeleteProjectButton } from './delete-button'
+import { CollectMetricsButton } from './metrics-button'
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -103,10 +104,31 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         )}
       </div>
 
+      {/* Integrations link */}
+      <div className="border border-zinc-800 rounded-xl p-5 mb-8">
+        <div className="flex items-center justify-between">
+          <h3 className="text-sm font-semibold text-zinc-300 flex items-center gap-2">
+            <Plug size={16} /> Integrações
+          </h3>
+          <Link
+            href={`/projects/${id}/integrations`}
+            className="text-sm text-blue-400 hover:underline"
+          >
+            Configurar
+          </Link>
+        </div>
+        <p className="text-zinc-600 text-sm mt-2">Conecte Supabase ou Mercado Pago para coletar métricas automaticamente.</p>
+      </div>
+
       {/* Metrics */}
-      {metrics && metrics.length > 0 && (
-        <div className="border border-zinc-800 rounded-xl p-5 mb-8">
-          <h3 className="text-sm font-semibold text-zinc-300 mb-4">Métricas</h3>
+      <div className="border border-zinc-800 rounded-xl p-5 mb-8">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-sm font-semibold text-zinc-300 flex items-center gap-2">
+            <TrendingUp size={16} /> Métricas
+          </h3>
+          <CollectMetricsButton />
+        </div>
+        {metrics && metrics.length > 0 ? (
           <div className="space-y-2">
             {metrics.map(m => (
               <div key={m.id} className="flex items-center justify-between text-sm">
@@ -115,8 +137,10 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
               </div>
             ))}
           </div>
-        </div>
-      )}
+        ) : (
+          <p className="text-zinc-600 text-sm">Nenhuma métrica coletada. Configure integrações e clique em coletar.</p>
+        )}
+      </div>
 
       {/* Danger zone */}
       <div className="border border-red-900/50 rounded-xl p-5">
