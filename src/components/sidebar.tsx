@@ -2,7 +2,7 @@
 
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
-import { LayoutDashboard, FolderKanban, Activity, Settings, LogOut } from 'lucide-react'
+import { LayoutDashboard, FolderKanban, Activity, Settings, LogOut, Users } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 

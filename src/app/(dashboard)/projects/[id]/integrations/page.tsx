@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useParams, useRouter } from 'next/navigation'
-import { ArrowLeft, Plus, Trash2, Save, Search, Check } from 'lucide-react'
+import { ArrowLeft, Plus, Trash2, Save, Search, Check, CheckCircle, ExternalLink } from 'lucide-react'
 import Link from 'next/link'
 import { metricsCatalog, categoryLabels, searchMetrics, type MetricTemplate } from '@/lib/metrics-catalog'
 
@@ -22,6 +22,14 @@ export default function IntegrationsPage() {
   const [tab, setTab] = useState<'integrations' | 'catalog'>('integrations')
   const supabase = createClient()
 
+  // ClickUp state
+  const [clickupToken, setClickupToken] = useState('')
+  const [clickupListId, setClickupListId] = useState('')
+  const [clickupSaving, setClickupSaving] = useState(false)
+  const [clickupSaved, setClickupSaved] = useState(false)
+  const [clickupTesting, setClickupTesting] = useState(false)
+  const [clickupTestResult, setClickupTestResult] = useState<{ ok: boolean; msg: string } | null>(null)
+
   const [showForm, setShowForm] = useState(false)
   const [formType, setFormType] = useState<'supabase' | 'mercadopago'>('supabase')
   const [formConfig, setFormConfig] = useState({
@@ -35,7 +43,50 @@ export default function IntegrationsPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedMetrics, setSelectedMetrics] = useState<MetricTemplate[]>([])
 
-  useEffect(() => { loadIntegrations() }, [])
+  useEffect(() => {
+    loadIntegrations()
+    loadClickup()
+  }, [])
+
+  async function loadClickup() {
+    const { data } = await supabase
+      .from('integrations')
+      .select('config')
+      .eq('project_id', id)
+      .eq('type', 'clickup')
+      .single()
+    if (data?.config) {
+      setClickupToken(data.config.api_token || '')
+      setClickupListId(data.config.list_id || '')
+    }
+  }
+
+  async function saveClickup() {
+    setClickupSaving(true)
+    await supabase.from('integrations').upsert({
+      project_id: id,
+      type: 'clickup',
+      enabled: true,
+      config: { api_token: clickupToken.trim(), list_id: clickupListId.trim() },
+    }, { onConflict: 'project_id,type' })
+    setClickupSaving(false)
+    setClickupSaved(true)
+    setTimeout(() => setClickupSaved(false), 2000)
+  }
+
+  async function testClickup() {
+    setClickupTesting(true)
+    setClickupTestResult(null)
+    const res = await fetch(`/api/clickup?project_id=${id}`)
+    if (res.ok) {
+      const data = await res.json()
+      setClickupTestResult({ ok: true, msg: `✅ Conectado! ${data.tasks.length} tarefas encontradas.` })
+    } else {
+      const data = await res.json()
+      setClickupTestResult({ ok: false, msg: `❌ ${data.error}` })
+    }
+    setClickupTesting(false)
+  }
 
   async function loadIntegrations() {
     const { data } = await supabase
@@ -138,6 +189,49 @@ export default function IntegrationsPage() {
 
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold text-zinc-100">Integrações & Métricas</h2>
+      </div>
+
+      {/* ClickUp Section */}
+      <div className="border border-zinc-800 rounded-xl p-5 mb-6">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center text-lg">🎯</div>
+          <div className="flex-1">
+            <h3 className="text-sm font-semibold text-zinc-100">ClickUp</h3>
+            <p className="text-xs text-zinc-500">Crie e liste tarefas diretamente do ZroGest</p>
+          </div>
+          <a href="https://app.clickup.com/settings/apps" target="_blank" className="text-zinc-500 hover:text-zinc-300 transition">
+            <ExternalLink size={14} />
+          </a>
+        </div>
+        <div className="space-y-3">
+          <div className="flex gap-3">
+            <div className="flex-1">
+              <label className="block text-xs text-zinc-500 mb-1">API Token</label>
+              <input type="password" value={clickupToken} onChange={e => setClickupToken(e.target.value)}
+                placeholder="pk_xxxxxxxx" className="w-full px-3 py-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-100 placeholder-zinc-600 focus:border-purple-500 focus:outline-none text-sm font-mono" />
+            </div>
+            <div className="flex-1">
+              <label className="block text-xs text-zinc-500 mb-1">List ID</label>
+              <input type="text" value={clickupListId} onChange={e => setClickupListId(e.target.value)}
+                placeholder="901xxxxxxx" className="w-full px-3 py-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-100 placeholder-zinc-600 focus:border-purple-500 focus:outline-none text-sm font-mono" />
+            </div>
+          </div>
+          {clickupTestResult && (
+            <p className={`text-xs px-3 py-2 rounded-lg ${clickupTestResult.ok ? 'bg-green-500/10 text-green-400' : 'bg-red-500/10 text-red-400'}`}>
+              {clickupTestResult.msg}
+            </p>
+          )}
+          <div className="flex gap-2">
+            <button onClick={testClickup} disabled={clickupTesting || !clickupToken || !clickupListId}
+              className="px-3 py-1.5 rounded-lg border border-zinc-700 text-zinc-300 text-xs hover:border-zinc-600 transition disabled:opacity-50">
+              {clickupTesting ? 'Testando...' : 'Testar'}
+            </button>
+            <button onClick={saveClickup} disabled={clickupSaving || !clickupToken || !clickupListId}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-600 text-white text-xs font-medium hover:bg-purple-500 transition disabled:opacity-50">
+              {clickupSaved ? <><CheckCircle size={12} /> Salvo!</> : <><Save size={12} /> {clickupSaving ? 'Salvando...' : 'Salvar'}</>}
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Tabs */}

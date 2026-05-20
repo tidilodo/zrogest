@@ -1,9 +1,10 @@
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, ExternalLink, GitBranch, Activity, Plug, TrendingUp } from 'lucide-react'
+import { ArrowLeft, ExternalLink, GitBranch, Activity, Plug, TrendingUp, Users } from 'lucide-react'
 import { DeleteProjectButton } from './delete-button'
 import { CollectMetricsButton } from './metrics-button'
+import { ClickUpWidget } from './clickup-widget'
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -110,14 +111,27 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
           <h3 className="text-sm font-semibold text-zinc-300 flex items-center gap-2">
             <Plug size={16} /> Integrações
           </h3>
-          <Link
-            href={`/projects/${id}/integrations`}
-            className="text-sm text-blue-400 hover:underline"
-          >
+          <Link href={`/projects/${id}/integrations`} className="text-sm text-blue-400 hover:underline">
             Configurar
           </Link>
         </div>
-        <p className="text-zinc-600 text-sm mt-2">Conecte Supabase ou Mercado Pago para coletar métricas automaticamente.</p>
+        <p className="text-zinc-600 text-sm mt-2">Conecte Supabase, Mercado Pago ou ClickUp para coletar métricas e criar tarefas.</p>
+      </div>
+
+      {/* ClickUp Tasks */}
+      <ClickUpWidget projectId={id} />
+
+      {/* Team */}
+      <div className="border border-zinc-800 rounded-xl p-5 mb-8">
+        <div className="flex items-center justify-between">
+          <h3 className="text-sm font-semibold text-zinc-300 flex items-center gap-2">
+            <Users size={16} /> Equipe
+          </h3>
+          <Link href={`/projects/${id}/team`} className="text-sm text-blue-400 hover:underline">
+            Gerenciar
+          </Link>
+        </div>
+        <p className="text-zinc-600 text-sm mt-2">Convide pessoas e defina níveis de acesso (Owner, Manager, Viewer).</p>
       </div>
 
       {/* Metrics */}
