@@ -19,10 +19,15 @@ export async function POST() {
       let responseTime = 0
 
       try {
-        const resp = await fetch(project.url!, { method: 'HEAD', signal: AbortSignal.timeout(10000) })
+        const resp = await fetch(project.url!, {
+          method: 'GET',
+          signal: AbortSignal.timeout(10000),
+          headers: { 'User-Agent': 'ZroGest-HealthCheck/1.0' },
+        })
         responseTime = Date.now() - start
 
-        if (resp.ok) {
+        // 2xx e 3xx = up, qualquer resposta do servidor = não está down
+        if (resp.status < 500) {
           status = responseTime > 3000 ? 'degraded' : 'up'
         }
       } catch {
