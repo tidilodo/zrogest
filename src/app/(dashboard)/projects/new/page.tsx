@@ -27,7 +27,8 @@ export default function NewProjectPage() {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return
 
-    const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+    const baseSlug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+    const slug = `${baseSlug}-${Math.random().toString(36).slice(2, 7)}`
 
     const { error } = await supabase.from('projects').insert({
       user_id: user.id,
