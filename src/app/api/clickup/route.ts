@@ -8,7 +8,7 @@ async function getClickUpConfig(supabase: any, projectId: string) {
     .eq('project_id', projectId)
     .eq('type', 'clickup')
     .eq('enabled', true)
-    .single()
+    .maybeSingle()
   return data?.config as { api_token: string; list_id: string } | null
 }
 

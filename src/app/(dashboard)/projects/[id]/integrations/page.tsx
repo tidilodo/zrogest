@@ -54,7 +54,7 @@ export default function IntegrationsPage() {
       .select('config')
       .eq('project_id', id)
       .eq('type', 'clickup')
-      .single()
+      .maybeSingle()
     if (data?.config) {
       setClickupToken(data.config.api_token || '')
       setClickupListId(data.config.list_id || '')
@@ -63,15 +63,26 @@ export default function IntegrationsPage() {
 
   async function saveClickup() {
     setClickupSaving(true)
-    await supabase.from('integrations').upsert({
+    // Delete existing then insert fresh (avoids upsert constraint issues)
+    await supabase.from('integrations')
+      .delete()
+      .eq('project_id', id)
+      .eq('type', 'clickup')
+
+    const { error } = await supabase.from('integrations').insert({
       project_id: id,
       type: 'clickup',
       enabled: true,
       config: { api_token: clickupToken.trim(), list_id: clickupListId.trim() },
-    }, { onConflict: 'project_id,type' })
+    })
+
     setClickupSaving(false)
-    setClickupSaved(true)
-    setTimeout(() => setClickupSaved(false), 2000)
+    if (error) {
+      alert('Erro ao salvar: ' + error.message)
+    } else {
+      setClickupSaved(true)
+      setTimeout(() => setClickupSaved(false), 2000)
+    }
   }
 
   async function testClickup() {
