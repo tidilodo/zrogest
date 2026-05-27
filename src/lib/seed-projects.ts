@@ -275,43 +275,6 @@ export const projectSeeds: ProjectSeed[] = [
       },
     ],
   },
-  {
-    name: 'Consultoria Marketing',
-    url: 'https://consultoria-marketing.com',
-    repo_url: 'https://github.com/tidilodo/consultoria-marketing',
-    description: 'Consultoria de marketing digital para negócios locais. Diagnóstico 360, implantação, ClickUp + IA.',
-    color: '#ef4444',
-    icon: '📈',
-    metrics: [
-      {
-        metric_id: 'marketing_clients',
-        label: 'Clientes Ativos',
-        table: 'clients',
-        filter: { status: 'active' },
-      },
-      {
-        metric_id: 'marketing_campaigns',
-        label: 'Campanhas em Execução',
-        table: 'campaigns',
-        filter: { status: 'running' },
-      },
-      {
-        metric_id: 'marketing_revenue',
-        label: 'ARR (Receita Anual)',
-        table: 'contracts',
-      },
-      {
-        metric_id: 'marketing_roi',
-        label: 'ROI Médio das Campanhas',
-        table: 'campaigns',
-      },
-      {
-        metric_id: 'marketing_leads_generated',
-        label: 'Leads Gerados',
-        table: 'leads',
-      },
-    ],
-  },
 ]
 
 export const projectMetricsMap = {
