@@ -20,9 +20,27 @@ Dashboard mostra: Cosmos, Mapa, Cria, Cuida, Vitrine, ZroGest
 
 ---
 
-## Os 6 Projetos Akasha
+## Os 7 Projetos (6 + Human Design como Produto Separado)
 
-### 1. 🌙 Astro Resumo (Cosmos)
+### 1. 🧬 Human Design
+**URL:** https://astroresumo.com/human-design  
+**Repo:** github.com/tidilodo/astro-resumo (módulo dentro de Cosmos)  
+**Cor:** #7c3aed (roxo)
+
+**Métricas:**
+- 🧬 Total de Pedidos
+- 💰 Receita Total
+- ✅ Mapas Entregues
+- ⏳ Pedidos Pendentes
+- 📧 Follow-ups Enviados
+
+**O que é:** Mapa de Design Humano com 3 planos premium (O Despertar R$97, A Travessia R$247, O Retorno R$497). Cada mapa é um PDF de 15 páginas com BodyGraph calculado via pyswisseph (cálculo astronômico real). Admin dashboard com tabela de clientes para fazer follow-up direto. Email automático "Como está sua jornada?" convocando para sessão de consultoria de interpretação do mapa.
+
+**Key Feature:** Follow-up email permite admin oferecer sessões de interpretação, aumentando LTV. Rastreamento de status por pedido (pendente, processando, pronto, entregue, rejeitado).
+
+---
+
+### 2. 🌙 Astro Resumo (Cosmos)
 **URL:** https://astroresumo.com  
 **Repo:** github.com/tidilodo/astro-resumo  
 **Cor:** #c9a84c (ouro)
@@ -30,11 +48,11 @@ Dashboard mostra: Cosmos, Mapa, Cria, Cuida, Vitrine, ZroGest
 **Métricas:**
 - 👥 Usuários Registrados
 - 💰 Transações com Cupom
-- 🎟️ Pedidos Human Design
 - 🔗 Afiliados Ativos
 - 🤝 Parceiros Cadastrados
+- 📊 Resumos Semanais
 
-**O que é:** App de previsões astrológicas semanais. Resumos automáticos toda segunda via Claude. Human Design com 3 planos dinâmicos (R$97/247/497). Sistema de cupons 50-60% OFF. Admin dashboard com aba HD para follow-ups.
+**O que é:** App de previsões astrológicas semanais. Resumos automáticos toda segunda via Claude. Sistema de cupons 50-60% OFF. Meditações em áudio via Amazon Polly. Admin dashboard com múltiplas abas. (Human Design é um produto separado — ver acima)
 
 ---
 
@@ -54,7 +72,7 @@ Dashboard mostra: Cosmos, Mapa, Cria, Cuida, Vitrine, ZroGest
 
 ---
 
-### 3. ✨ OráculoAI (Cria)
+### 3. ✨ OráculoAI (Cria) 
 **URL:** https://oraculo.ai  
 **Repo:** github.com/tidilodo/oraculo-ai  
 **Cor:** #06b6d4 (ciano)
@@ -132,9 +150,17 @@ Após seed, você verá 4 cards no topo:
 
 ## Como Cada Projeto Aparece
 
-Cada card mostra:
+Cada card mostra 4 KPIs principais:
 
 ```
+┌─ 🧬 Human Design ─────────────────────────┐
+│                                           │
+│ 🧬 Pedidos: —              💰 Receita: —│
+│ ✅ Entregues: —            ⏳ Pendentes: —│
+│                                           │
+│ 🔗 GitHub    🌐 Website    📊 Ver detalhes
+└───────────────────────────────────────────┘
+
 ┌─ 🌙 Astro Resumo (Cosmos) ────────────────┐
 │                                           │
 │ 👥 Usuários: —           💰 Transações: —│

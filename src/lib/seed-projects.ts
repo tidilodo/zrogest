@@ -56,11 +56,48 @@ export const projectSeeds: ProjectSeed[] = [
     ],
   },
   {
+    name: 'Human Design',
+    url: 'https://astroresumo.com/human-design',
+    repo_url: 'https://github.com/tidilodo/astro-resumo',
+    description: 'Mapa de Design Humano com 3 planos premium (R$97/247/497). PDF 15 páginas + email follow-up. Admin dashboard com clientes.',
+    color: '#7c3aed',
+    icon: '🧬',
+    metrics: [
+      {
+        metric_id: 'hd_total_pedidos',
+        label: 'Total de Pedidos',
+        table: 'human-design-pedidos',
+      },
+      {
+        metric_id: 'hd_receita',
+        label: 'Receita Total',
+        table: 'human-design-pedidos',
+      },
+      {
+        metric_id: 'hd_entregues',
+        label: 'Mapas Entregues',
+        table: 'human-design-pedidos',
+        filter: { status: 'entregue' },
+      },
+      {
+        metric_id: 'hd_pendentes',
+        label: 'Pedidos Pendentes',
+        table: 'human-design-pedidos',
+        filter: { status: 'pendente' },
+      },
+      {
+        metric_id: 'hd_followups_enviados',
+        label: 'Follow-ups Enviados',
+        table: 'human-design-followups',
+      },
+    ],
+  },
+  {
     name: 'Numerologia (Mapa)',
     url: 'https://numerologia.astroresumo.com',
     repo_url: 'https://github.com/tidilodo/numerologia',
     description: 'App web de mapa numerológico Pitagórico com relatório premium e export PDF. Integração Santessência com 5 funnels.',
-    color: '#7c3aed',
+    color: '#c084fc',
     icon: '🔢',
     metrics: [
       {
@@ -287,8 +324,17 @@ export const projectMetricsMap = {
       { label: 'Uptime', value: '99.9%', icon: '✅' },
     ],
   },
-  numerologia: {
+  humandesign: {
     color: '#7c3aed',
+    stats: [
+      { label: 'Pedidos', value: '—', icon: '🧬' },
+      { label: 'Receita', value: 'R$ —', icon: '💰' },
+      { label: 'Entregues', value: '—', icon: '✅' },
+      { label: 'Uptime', value: '99.9%', icon: '✅' },
+    ],
+  },
+  numerologia: {
+    color: '#c084fc',
     stats: [
       { label: 'Usuários', value: '—', icon: '👥' },
       { label: 'Relatórios', value: '—', icon: '📝' },
