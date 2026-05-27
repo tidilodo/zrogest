@@ -20,7 +20,7 @@ export interface ProjectSeed {
 
 export const projectSeeds: ProjectSeed[] = [
   {
-    name: 'Astro Resumo (Cosmos)',
+    name: 'Cosmos',
     url: 'https://astroresumo.com',
     repo_url: 'https://github.com/tidilodo/astro-resumo',
     description: 'App de previsões astrológicas semanais com FastAPI + Bedrock. Sistema de cupons 50-60% OFF, Admin HD com follow-ups.',
@@ -93,7 +93,7 @@ export const projectSeeds: ProjectSeed[] = [
     ],
   },
   {
-    name: 'Numerologia (Mapa)',
+    name: 'Numerologia',
     url: 'https://numerologia.astroresumo.com',
     repo_url: 'https://github.com/tidilodo/numerologia',
     description: 'App web de mapa numerológico Pitagórico com relatório premium e export PDF. Integração Santessência com 5 funnels.',
@@ -130,7 +130,7 @@ export const projectSeeds: ProjectSeed[] = [
     ],
   },
   {
-    name: 'OráculoAI (Cria)',
+    name: 'Oraculo',
     url: 'https://oraculo.ai',
     repo_url: 'https://github.com/tidilodo/oraculo-ai',
     description: 'SaaS conteúdo com IA para terapeutas holísticos. Next.js + Supabase + Bedrock. Contexto astral injetado do Cosmos.',
@@ -166,7 +166,7 @@ export const projectSeeds: ProjectSeed[] = [
     ],
   },
   {
-    name: 'TerapeutAI (Cuida)',
+    name: 'TerapeutAI',
     url: 'https://terapeutai.com',
     repo_url: 'https://github.com/tidilodo/terapeutai',
     description: 'SaaS gestão de pacientes para terapeutas com IA + LGPD. Prontuário holístico com mapas energéticos e padrões.',
@@ -203,7 +203,7 @@ export const projectSeeds: ProjectSeed[] = [
     ],
   },
   {
-    name: 'Rifa Digital (Vitrine)',
+    name: 'Vitrine',
     url: 'https://rifa-digital.vercel.app',
     repo_url: 'https://github.com/tidilodo/rifa-digital',
     description: 'Sistema de rifa digital com PIX + Mercado Pago. Vercel serverless + Supabase. Doações, sorteios, ingressos.',
