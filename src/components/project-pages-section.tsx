@@ -2,17 +2,22 @@
 
 import { getProjectPages, getCategoryColor, getCategoryLabel } from '@/lib/project-pages'
 import { ExternalLink, Copy, Check } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 interface ProjectPagesSectionProps {
   projectName: string
 }
 
 export function ProjectPagesSection({ projectName }: ProjectPagesSectionProps) {
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
   const projectPages = getProjectPages(projectName)
   const [copiedUrl, setCopiedUrl] = useState<string | null>(null)
 
-  if (!projectPages) {
+  if (!mounted || !projectPages) {
     return null
   }
 
