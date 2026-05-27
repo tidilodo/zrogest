@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { Activity, FolderKanban, TrendingUp, AlertCircle } from 'lucide-react'
 import Link from 'next/link'
+import { SeedInit } from '@/components/seed-init'
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -52,15 +53,17 @@ export default async function DashboardPage() {
       </div>
 
       {!projects?.length ? (
-        <div className="border border-zinc-800 rounded-xl p-12 text-center">
-          <FolderKanban size={48} className="mx-auto text-zinc-700 mb-4" />
-          <p className="text-zinc-400 mb-4">Nenhum projeto cadastrado ainda</p>
-          <Link
-            href="/projects/new"
-            className="inline-block px-6 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-violet-600 text-white font-medium hover:opacity-90 transition"
-          >
-            Adicionar primeiro projeto
-          </Link>
+        <div className="space-y-4">
+          <SeedInit />
+          <div className="border border-zinc-800 rounded-xl p-8 text-center">
+            <p className="text-zinc-500 text-sm mb-4">Ou adicionar projeto manualmente:</p>
+            <Link
+              href="/projects/new"
+              className="inline-block px-6 py-3 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-white font-medium transition"
+            >
+              + Novo Projeto
+            </Link>
+          </div>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
