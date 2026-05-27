@@ -5,6 +5,7 @@ import { ArrowLeft, ExternalLink, GitBranch, Activity, Plug, TrendingUp, Users }
 import { DeleteProjectButton } from './delete-button'
 import { CollectMetricsButton } from './metrics-button'
 import { ClickUpWidget } from './clickup-widget'
+import { ProjectPagesSection } from '@/components/project-pages-section'
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -155,6 +156,9 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
           <p className="text-zinc-600 text-sm">Nenhuma métrica coletada. Configure integrações e clique em coletar.</p>
         )}
       </div>
+
+      {/* Project Pages Documentation */}
+      <ProjectPagesSection projectName={project.name} />
 
       {/* Danger zone */}
       <div className="border border-red-900/50 rounded-xl p-5">
