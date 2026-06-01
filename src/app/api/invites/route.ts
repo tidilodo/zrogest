@@ -64,9 +64,9 @@ export async function POST(request: Request) {
 
   const inviteUrl = `${process.env.NEXT_PUBLIC_APP_URL}/invite/${invite.token}`
 
-  // Enviar email com Resend
-  if (!process.env.RESEND_API_KEY) {
-    console.warn('⚠️ RESEND_API_KEY não configurada - email não será enviado')
+  // Enviar email com SendGrid
+  if (!process.env.SENDGRID_API_KEY) {
+    console.warn('⚠️ SENDGRID_API_KEY não configurada - email não será enviado')
     return NextResponse.json({
       ok: true,
       type: 'invite_created_no_email',
@@ -76,15 +76,15 @@ export async function POST(request: Request) {
   }
 
   try {
-    const emailRes = await fetch('https://api.resend.com/emails', {
+    const emailRes = await fetch('https://api.sendgrid.com/v3/mail/send', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+        'Authorization': `Bearer ${process.env.SENDGRID_API_KEY}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: process.env.RESEND_FROM || 'ZroGest <noreply@resend.dev>',
-        to: [email],
+        personalizations: [{ to: [{ email }] }],
+        from: { email: 'noreply@zrogest.com', name: 'ZroGest' },
         subject: `Você foi convidado para ${project.name} no ZroGest`,
         html: `
           <div style="font-family:sans-serif;max-width:480px;margin:auto;background:#0a0a0f;color:#f0f0f0;padding:32px;border-radius:12px;">
@@ -103,10 +103,10 @@ export async function POST(request: Request) {
 
     if (!emailRes.ok) {
       const emailError = await emailRes.json()
-      console.error('❌ Erro ao enviar email via Resend:', emailError)
+      console.error('❌ Erro ao enviar email via SendGrid:', emailError)
       return NextResponse.json({
         ok: false,
-        error: `Email não enviado: ${emailError.message || 'Erro desconhecido'}`,
+        error: `Email não enviado: ${emailError.errors?.[0]?.message || 'Erro desconhecido'}`,
         type: 'email_failed'
       }, { status: 500 })
     }
