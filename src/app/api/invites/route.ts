@@ -44,7 +44,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true, type: 'added_directly' })
   }
 
-  // Não tem conta — criar convite pendente
+  // Não tem conta — criar convite pendente (expira em 7 dias)
+  const expiresAt = new Date()
+  expiresAt.setDate(expiresAt.getDate() + 7)
+
   const { data: invite, error } = await admin
     .from('project_invites')
     .upsert({
@@ -52,6 +55,7 @@ export async function POST(request: Request) {
       email,
       role,
       invited_by: user.id,
+      expires_at: expiresAt.toISOString(),
     }, { onConflict: 'project_id,email' })
     .select()
     .single()
@@ -60,9 +64,19 @@ export async function POST(request: Request) {
 
   const inviteUrl = `${process.env.NEXT_PUBLIC_APP_URL}/invite/${invite.token}`
 
-  // Enviar email com Resend se configurado
-  if (process.env.RESEND_API_KEY) {
-    await fetch('https://api.resend.com/emails', {
+  // Enviar email com Resend
+  if (!process.env.RESEND_API_KEY) {
+    console.warn('⚠️ RESEND_API_KEY não configurada - email não será enviado')
+    return NextResponse.json({
+      ok: true,
+      type: 'invite_created_no_email',
+      warning: 'Email não configurado. Convite criado, mas email não foi enviado.',
+      invite_url: inviteUrl
+    }, { status: 200 })
+  }
+
+  try {
+    const emailRes = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
@@ -85,8 +99,28 @@ export async function POST(request: Request) {
           </div>
         `,
       }),
-    }).catch(console.error)
-  }
+    })
 
-  return NextResponse.json({ ok: true, type: 'invite_sent', invite_url: inviteUrl })
+    if (!emailRes.ok) {
+      const emailError = await emailRes.json()
+      console.error('❌ Erro ao enviar email via Resend:', emailError)
+      return NextResponse.json({
+        ok: false,
+        error: `Email não enviado: ${emailError.message || 'Erro desconhecido'}`,
+        type: 'email_failed'
+      }, { status: 500 })
+    }
+
+    console.log('✅ Email enviado com sucesso para', email)
+    return NextResponse.json({ ok: true, type: 'invite_sent', invite_url: inviteUrl })
+
+  } catch (err) {
+    const errMsg = err instanceof Error ? err.message : String(err)
+    console.error('❌ Erro ao enviar email:', errMsg)
+    return NextResponse.json({
+      ok: false,
+      error: `Erro ao enviar email: ${errMsg}`,
+      type: 'email_error'
+    }, { status: 500 })
+  }
 }
