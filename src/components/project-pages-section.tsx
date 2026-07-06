@@ -77,8 +77,32 @@ export function ProjectPagesSection({ projectName }: ProjectPagesSectionProps) {
                             Autenticado
                           </span>
                         )}
+                        {page.password && (
+                          <span className="text-xs bg-red-500/20 text-red-300 px-2 py-0.5 rounded">
+                            🔑 Senha
+                          </span>
+                        )}
                       </div>
                       <p className="text-xs text-zinc-400">{page.description}</p>
+                      {page.password && (
+                        <div className="mt-1 flex items-center gap-2">
+                          <span className="text-xs text-zinc-500">Senha:</span>
+                          <code className="text-xs bg-zinc-900/50 px-2 py-0.5 rounded border border-zinc-700/50 text-amber-300 font-mono">
+                            {page.password}
+                          </code>
+                          <button
+                            onClick={() => handleCopyUrl(page.password!)}
+                            className="p-1 rounded hover:bg-zinc-700/50 transition"
+                            title="Copiar senha"
+                          >
+                            {copiedUrl === page.password ? (
+                              <Check size={12} className="text-green-400" />
+                            ) : (
+                              <Copy size={12} className="text-zinc-500 hover:text-zinc-300" />
+                            )}
+                          </button>
+                        </div>
+                      )}
 
                       {/* Truncated URL for display */}
                       <div className="mt-2 flex items-center gap-2">

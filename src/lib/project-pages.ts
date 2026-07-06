@@ -10,6 +10,7 @@ export interface PageLink {
   icon: string
   requiresAuth?: boolean
   external?: boolean
+  password?: string
 }
 
 export interface ProjectPages {
@@ -42,8 +43,8 @@ export const projectPagesMap: Record<string, ProjectPages> = {
       },
       {
         name: 'Admin - Clientes HD',
-        path: 'https://astroresumo.com/admin?key=ADMIN_SECRET',
-        description: 'Tabela de clientes, follow-ups, estatísticas',
+        path: 'https://astroresumo.com/admin',
+        description: 'Tabela de clientes, follow-ups, estatísticas. Senha: ?key=ADMIN_SECRET (ver Cosmos admin)',
         type: 'admin',
         icon: '👥',
       },
@@ -121,15 +122,15 @@ export const projectPagesMap: Record<string, ProjectPages> = {
       },
       {
         name: 'Admin Dashboard',
-        path: 'https://astroresumo.com/admin?key=ADMIN_SECRET',
-        description: 'Usuários, Transações, Analytics, Afiliados',
+        path: 'https://astroresumo.com/admin',
+        description: 'Usuários, Transações, Analytics, Afiliados — acesso via ?key=ADMIN_SECRET',
         type: 'admin',
         icon: '⚙️',
       },
       {
         name: 'Admin SEO',
-        path: 'https://astroresumo.com/admin-seo?key=ADMIN_SECRET',
-        description: 'CRUD Blog, Glossário, Parceiros, Vídeos, Serviços',
+        path: 'https://astroresumo.com/admin-seo',
+        description: 'CRUD Blog, Glossário, Parceiros, Vídeos, Serviços — acesso via ?key=ADMIN_SECRET',
         type: 'admin',
         icon: '🔧',
       },
@@ -314,6 +315,254 @@ export const projectPagesMap: Record<string, ProjectPages> = {
         path: 'https://rifa-digital.vercel.app/admin',
         description: 'Gerenciar rifas, números vendidos, receita',
         type: 'admin',
+        icon: '⚙️',
+      },
+    ],
+  },
+
+  marketplacemachine: {
+    projectId: 'marketplace-machine',
+    projectName: 'Marketplace Machine',
+    projectUrl: 'https://marketplace-machine.vercel.app',
+    pages: [
+      {
+        name: 'Landing Page',
+        path: 'https://marketplace-machine.vercel.app',
+        description: 'Saito Inteligência de Mercado — Laudo Shopee R$247',
+        type: 'public',
+        icon: '🛒',
+      },
+      {
+        name: 'Diagnóstico',
+        path: 'https://marketplace-machine.vercel.app/diagnostico',
+        description: 'Formulário 4 etapas (nome, situação, produto, capital)',
+        type: 'public',
+        icon: '📋',
+      },
+      {
+        name: 'Admin Dashboard',
+        path: 'https://marketplace-machine.vercel.app/admin',
+        description: 'Lista clientes, laudos, status, envio de emails',
+        type: 'admin',
+        icon: '⚙️',
+        password: 'mm@2026#shopee',
+      },
+      {
+        name: 'Admin — Demo ao Vivo',
+        path: 'https://marketplace-machine.vercel.app/admin/demo',
+        description: '4 fases de call de vendas (Briefing → Análise → Resultado → Pitch)',
+        type: 'admin',
+        icon: '🎬',
+        password: 'mm@2026#shopee',
+      },
+      {
+        name: 'Admin — Consultoria',
+        path: 'https://marketplace-machine.vercel.app/admin/consultoria',
+        description: 'Calculadora margem, adequação IA, SEO/textos, regras Shopee, checklist',
+        type: 'admin',
+        icon: '💼',
+        password: 'mm@2026#shopee',
+      },
+      {
+        name: 'API - Checkout',
+        path: 'https://marketplace-machine.vercel.app/api/checkout',
+        description: 'POST cria cliente + diagnóstico + redirect Mercado Pago',
+        type: 'api',
+        icon: '⚙️',
+      },
+      {
+        name: 'API - Gerar Diagnóstico',
+        path: 'https://marketplace-machine.vercel.app/api/diagnostico/gerar',
+        description: 'POST Apify + Claude Bedrock → gera laudo (requer x-internal-secret)',
+        type: 'api',
+        icon: '⚙️',
+      },
+    ],
+  },
+
+  planofugaos: {
+    projectId: 'plano-fuga-os',
+    projectName: 'Plano de Fuga OS',
+    projectUrl: 'https://plano-fuga-os.vercel.app',
+    pages: [
+      {
+        name: 'Home (Ritual)',
+        path: 'https://plano-fuga-os.vercel.app',
+        description: 'Stage 0 — ritual de entrada + início da jornada ANKHE',
+        type: 'public',
+        icon: '🚀',
+      },
+      {
+        name: 'Chat Alquimista',
+        path: 'https://plano-fuga-os.vercel.app/ankhe',
+        description: 'Stage 1 — conversa narrativa + extração silenciosa de Ikigai',
+        type: 'public',
+        icon: '💬',
+        requiresAuth: true,
+      },
+      {
+        name: 'Dashboard Jornada',
+        path: 'https://plano-fuga-os.vercel.app/ankhe/dashboard',
+        description: 'Stage 4 — DailyTracker, Timeline, Campos & Portais, Check-ins',
+        type: 'public',
+        icon: '📊',
+        requiresAuth: true,
+      },
+      {
+        name: 'API - Construir Plano',
+        path: 'https://plano-fuga-os.vercel.app/api/ankhe/construir-plano',
+        description: 'POST gera Plano de Fuga personalizado (30 dias)',
+        type: 'api',
+        icon: '⚙️',
+      },
+      {
+        name: 'API - Extrair Eixos',
+        path: 'https://plano-fuga-os.vercel.app/api/ankhe/extrair-eixos',
+        description: 'POST estruturador silencioso — 4 eixos Ikigai em JSON',
+        type: 'api',
+        icon: '⚙️',
+      },
+    ],
+  },
+
+  mapavedico: {
+    projectId: 'mapa-vedico',
+    projectName: 'Mapa Védico',
+    projectUrl: 'https://astroresumo.com/mapavedico',
+    pages: [
+      {
+        name: 'Landing Page',
+        path: 'https://astroresumo.com/mapavedico',
+        description: 'Jyotish (astrologia védica) — 3 planos: R$47/R$97/R$197',
+        type: 'public',
+        icon: '🕉️',
+      },
+      {
+        name: 'Status do Pedido',
+        path: 'https://astroresumo.com/mapavedico-status',
+        description: 'Página pós-pagamento — status da leitura',
+        type: 'public',
+        icon: '📊',
+        requiresAuth: true,
+      },
+      {
+        name: 'Admin — Clientes',
+        path: 'https://astroresumo.com/admin',
+        description: 'Aba Mapa Védico no admin do Cosmos — lista + follow-ups',
+        type: 'admin',
+        icon: '👥',
+      },
+      {
+        name: 'API Vercel (workaround)',
+        path: 'https://mapavedico-serverless.vercel.app/api/pedido-teste',
+        description: 'POST cálculo Jyotish + email direto (produção atual sem ECS)',
+        type: 'api',
+        icon: '⚙️',
+      },
+      {
+        name: 'API - Pedido',
+        path: 'https://astroresumo.com/api/mapavedico/pedido',
+        description: 'POST cria pedido + link Mercado Pago',
+        type: 'api',
+        icon: '⚙️',
+      },
+    ],
+  },
+
+  varzea: {
+    projectId: 'varzea',
+    projectName: 'Várzea',
+    projectUrl: 'https://varzea.vercel.app',
+    pages: [
+      {
+        name: 'Home',
+        path: 'https://varzea.vercel.app',
+        description: 'App social de resenhas entre amigos — MVP Base44',
+        type: 'public',
+        icon: '⚽',
+      },
+      {
+        name: 'Criar Resenha',
+        path: 'https://varzea.vercel.app/criar',
+        description: 'Wizard para criar evento + convidar amigos',
+        type: 'public',
+        icon: '➕',
+        requiresAuth: true,
+      },
+      {
+        name: 'Troféus',
+        path: 'https://varzea.vercel.app/trofeus',
+        description: 'MVP votado, gamificação, temporadas e selos',
+        type: 'public',
+        icon: '🏆',
+        requiresAuth: true,
+      },
+      {
+        name: 'Galeras',
+        path: 'https://varzea.vercel.app/galeras',
+        description: 'Crews persistentes com identidade e membros',
+        type: 'public',
+        icon: '👥',
+        requiresAuth: true,
+      },
+    ],
+  },
+
+  agencyos: {
+    projectId: 'agencyos',
+    projectName: 'AgencyOS',
+    projectUrl: 'https://agencyos.app.n8n.cloud',
+    pages: [
+      {
+        name: 'n8n Cloud',
+        path: 'https://agencyos.app.n8n.cloud',
+        description: 'Painel n8n com workflows Figura (Status Change + SLA Alert)',
+        type: 'admin',
+        icon: '⚡',
+      },
+      {
+        name: 'Blueprint Generator CLI',
+        path: 'https://codehouse-web.vercel.app',
+        description: 'Interface web Briefing → Blueprint → Deploy ClickUp (~15s)',
+        type: 'public',
+        icon: '🏗️',
+        password: 'codehouse2026',
+      },
+      {
+        name: 'ClickUp — Figura',
+        path: 'https://app.clickup.com/9013417746',
+        description: 'Workspace Figgura — Space Figura (Episodes 2026)',
+        type: 'admin',
+        icon: '📋',
+      },
+    ],
+  },
+
+  codehouse: {
+    projectId: 'codehouse',
+    projectName: 'Code House',
+    projectUrl: 'https://codehouse-web.vercel.app',
+    pages: [
+      {
+        name: 'Interface Web',
+        path: 'https://codehouse-web.vercel.app',
+        description: 'Briefing → Blueprint preview → Deploy ClickUp (~15s)',
+        type: 'public',
+        icon: '🏠',
+        password: 'codehouse2026',
+      },
+      {
+        name: 'API - Generate Blueprint',
+        path: 'https://codehouse-web.vercel.app/api/generate',
+        description: 'POST briefing → Bedrock Claude → blueprint JSON (4 moldes)',
+        type: 'api',
+        icon: '⚙️',
+      },
+      {
+        name: 'API - Deploy ClickUp',
+        path: 'https://codehouse-web.vercel.app/api/deploy',
+        description: 'POST blueprint → Space + Folders + Listas + Fields no ClickUp',
+        type: 'api',
         icon: '⚙️',
       },
     ],
